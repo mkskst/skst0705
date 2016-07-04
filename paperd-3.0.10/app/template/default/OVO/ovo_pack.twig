@@ -1,0 +1,40 @@
+{#
+
+MY OVO PACK 閲覧ページ
+
+#}
+
+{% extends 'editor_frame.twig' %}
+
+{% set body_class = 'editor_ovo_page' %}
+
+{% block editor_head %}
+{{ include('Editor/pd_common_head.twig')}}
+ <script type="text/javascript">
+
+var printsetId = location.search.split("?").join('');
+printsetId = !printsetId ? null : printsetId;
+
+require([
+  "app/Pack"
+], function(
+  Pack
+) {
+
+  var pack = new Pack('OVO', printsetId);
+  pack.init();
+
+});
+
+</script>
+{% endblock %}
+
+{% block main %}
+ {{ include('OVO/ovo_pack_main.twig')}}
+
+<input type="hidden" name="current_printset_id" value="{{current_printset_id}}" id="current_printset_id">
+{% endblock %}
+
+{% block overlay %}
+ {{ include('Editor/pd_common_overlay.twig')}}
+{% endblock %}

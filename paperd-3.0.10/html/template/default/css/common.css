@@ -1,0 +1,117 @@
+@charset "utf-8";
+/* --------------------------------
+	Common
+-------------------------------- */
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
+body {
+	font-family: 'Noto Sans JP', "游ゴシック", YuGothic, "Yu Gothic", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", Arial, "メイリオ", Meiryo, sans-serif;
+	line-height: 1.4;
+	background-color: #fff;
+	color: #666;
+	-webkit-text-size-adjust: 100%;
+	font-weight: 500;
+}
+html {
+    font-size: 62.5%; /* 62.5%を指定すると「1.0 rem = 10px」 */
+}
+
+body {
+    font-size: 11px;
+    font-size: 1.1rem;
+    letter-spacing: 0.1rem;
+}
+a { color: #3399cc;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover,
+a:focus,
+a:active { text-decoration: none; outline: none;}
+
+
+textarea { /* for chrome fontsize bug */
+    font-family: sans-serif;
+}
+
+h1 {
+    margin: 0; padding: 0;
+}
+ul, ol {
+    list-style: none;
+    margin: 0; padding: 0;
+}
+dl, dt, dd, li{
+    margin: 0; padding: 0;
+}
+img {
+    width: 100%;
+}
+
+.img_center,
+.txt_center {
+	text-align: center;
+}
+.img_right,
+.txt_right {
+	text-align: right;
+}
+.clearfix:after {
+    content:" ";
+    display:block;
+    clear:both;
+}
+/* --------------------------------
+	box
+-------------------------------- */
+.boxL {
+	border: 1px solid #bdbebe;
+	line-height: 160%;
+	padding: 20px;
+}
+/* --------------------------------
+	btn
+-------------------------------- */
+
+.btnStd {
+	display: inline-block;
+	margin: 0 auto;
+	border-radius: 25px;
+	padding: 7px 22px;
+	line-height: 100%;
+	font-size: 11px;
+	font-size: 1.1rem;
+	color: #fff;
+	font-weight: bold;
+}
+.btnStd:hover, .btnStd:focus, .btnStd:active, .btnStd:active
+{
+	color: #fff;
+}
+
+/* color */
+
+.btnEnter {
+	background-color: #ff9900;
+}
+
+.btnTool {
+	border: 1px solid #fff;
+}
+.btnMark_pre {
+	display: block;
+	margin: auto auto 6px;
+	width: 12px;
+	height: 6px;
+	background-image: url(../img/common/iconLink@2x.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+.btnMark {
+	color: #ff9900;
+	border: 1px solid #ff9900;
+}
+.btnMark:hover, .btnMark:focus, .btnMark:active, .btnMark:active
+{
+	color: #ff9900;
+}

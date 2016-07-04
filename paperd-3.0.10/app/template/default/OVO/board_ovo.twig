@@ -1,0 +1,50 @@
+{#
+
+MY OVO ページ
+
+#}
+
+{% extends 'editor_frame.twig' %}
+
+{% set body_class = 'editor_ovo_page' %}
+
+{% block editor_head %}
+ {{ include('Editor/pd_common_head.twig')}}
+{% endblock %}
+
+{% block main %}
+{#
+
+MyBoardページ メインHTMLコード
+
+#}
+<div id="" class="pdcontainer">
+
+<div class="pdtab pbtab-2clum">
+  <a href="/ovo" class="pdTabButton pdTabButton--myovo"><div><span>MY OVO</span></div></a>
+  <a href="#" class="pdTabButton pdTabButton--myboard pdTabButton--active"><div><span>MY BOARD</span></div></a>
+</div>
+
+{#
+<div class="pduser">
+  <div class="pduser__pic">
+    <div><img src="assets/debug/img/320x320.jpg" alt=""></div>
+  </div>
+  <div class="pduser__info">
+    <div>
+      <p>jamoo</p>
+      <p>あいえおかきくけこさしすせそたちつてとあいえおかきくけこさしすせそたちつてとあいえおかきくけこさしすせそたちつてとあいえおかきくけこさしすせそたちつてとあいえおかきくけこさしすせそたちつてとあいえおかきくけこさしすせそたちつてとあいえおかきくけこさしすせそたちつてとあいえおかきくけこさしすせそたちつてと</p>
+    </div>
+  </div>
+</div>
+#}
+
+<div class="pagelist pagelist--3Column">
+{% for Item in list %}
+  <div class="pdpage pdpage--ovo"><a href="/board/card/{{ Item['print_card_id'] }}"><div class="pdpage__wrap" style="background-image:url('{{ Item['preview_image_url'] }}');"></div></a></div>
+{% endfor %}
+</div>
+
+</div><!-- /.pdcontainer -->
+
+{% endblock %}

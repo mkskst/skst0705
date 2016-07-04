@@ -1,0 +1,141 @@
+{#
+
+MyOVO Packページ メインHTMLコード
+
+#}
+<div id="" class="pdcontainer">
+
+
+<!-- ////////////////////////////////////////////////////////////////
+
+ カード(リスト)
+
+//////////////////////////////////////////////////////////////// -->
+<section id="cardlist" class="cardlist pdcomponent pdcomponent--hide" data-title="PREVIEW" data-style="style2">
+  <div class="pdtab pbtab-2clum">
+    <a href="#" class="pdTabButton pdTabButton--myovo pdTabButton--active"><div><span>MY OVO</span></div></a>
+    <a href="#" class="pdTabButton pdTabButton--myboard"><div><span>MY BOARD</span></div></a>
+  </div>
+
+  <div>
+    <div class="pagelist pagelist--4Column">
+      <page v-for="page in pages" :page="page" :page-index="$index" :mounted-count="getMountCount($index)" :editable="editable"></page>
+    </div>
+  </div>
+
+  <div class="foldboxlist">
+    <foldbox-event-use></foldbox-event-use>
+  </div><!-- /.foldboxlist -->
+</section>
+
+<section id="singlecardpreview" class="singlecardpreview pdcomponent pdcomponent--hide" data-title="EDIT" data-style="style3">
+
+  <div class="pdtab">
+    <a href="#" class="pdTabButton pdTabButton--ovo pdTabButton--active"><div><span>OVO</span></div></a>
+  </div>
+
+  <div class="singlecardpreview__wrap">
+
+    <div class="editcard__pages">
+      <page v-for="page in pages" :page="page" :editable="editable" v-if="$index == $parent.index"></page>
+    </div>
+
+    <div class="cardnav">
+      <div>
+        <a href="#" class="pdButtonBack" @click.prevent="back()"><div></div></a>
+        <div class="cardnav__mountedcount" v-show="mountedCount"><span>[[mountedCount]]</span></div>
+        <a href="#" class="pdButtonNext" @click.prevent="next()"><div></div></a>
+      </div>
+    </div>
+
+    <div class="positionbar">
+      <div>
+        <div v-bind:style="{left:(index / (pages.length - 1)) * 100 + '%'}"></div>
+      </div>
+    </div>
+
+    <div class="positioninfo"><span>[[index + 1]]/[[pages.length]]</span></div>
+
+    <div class="foldboxlist">
+      <foldbox-message-input :index.sync="index" :card-messages.sync="cardMessages" :printset-id="printsetId"></foldbox-message-input>
+      <foldbox-open-status :card.sync="card" :printset-id="printsetId"></foldbox-open-status>
+    </div><!-- /.foldboxlist -->
+
+  </div>
+  <footer>
+    <div>
+      <a href="#" @click.prevent="complete()" class="btnStd btnEnter">CLOSE</a>
+    </div>
+  </footer>
+</section>
+
+<!-- テンプレート：ページ -->
+<script id="tmpl-page" type="x-template">
+<div class="pdpage pdpage--ovo" @click="selectPage" v-bind:class="{'pdpage--debug': debugMode}">
+  <div class="pdpage__wrap" v-bind:style="pdpageWrapStyle" >
+    <imagearea v-for="tmplImageArea in tmplImageAreaList" :image-area-data="$parent.getImageAreaData(tmplImageArea)" :scale-template="scaleTemplate" :tmpl="tmpl" :tmpl-image-area="tmplImageArea" :page.sync="page" :editable="editable"></imagearea>
+    <div class="pdpage__mountedcount" v-show="mountedCount">[[mountedCount]]</div>
+  </div>
+</div>
+</script>
+
+<!-- テンプレート：イメージエリア -->
+<script id="tmpl-imagearea" type="x-template">
+<div class="pdimagearea" v-bind:style="{top:top+'px', left:left+'px', width:width+'px', height:height+'px'}">
+  <pdimage :scale-template="scaleTemplate" :page.sync="page" :image-area-data="imageAreaData" :image-width.sync="imageWidth" :image-height.sync="imageHeight" :image-rotate="imageRotate"></pdimage>
+</div>
+</script>
+
+<!-- テンプレート：イメージ -->
+<script id="tmpl-image" type="x-template">
+<div class="pdimage" v-bind:style="{transform:getMatrixCss()}">
+  <imagedata :src="imageSrc" :page="page" :image-area-data="imageAreaData" :scale-template="scaleTemplate" :image-width.sync="imageWidth" :image-height.sync="imageHeight" :image-rotate="imageRotate"></imagedata>
+</div>
+</script>
+
+<!-- イメージデータ -->
+<script id="tmpl-imagedata" type="x-template">
+  <img :src="imageSrc" class="pdimage--hide" v-bind:class="{'pdimage--show':visible}" v-bind:style="{transform:getMatrixCss()}"></img>
+</script>
+
+<!-- EVENT展示を許可設定 -->
+<script id="tmpl-foldbox-eventuse" type="x-template">
+  <div v-bind:class="{'foldbox--open':isOpen}">
+    <div @click.prevent="open()"><span>EVENT展示</span></div>
+    <div class="">
+      <form action="" data-title="EVENT展示を許可する" data-message="みなさまのOVOをEVENTにて、<br> 展示させていただくことがあります。">
+        <INPUT type="checkbox" id="event_use" @click="clickCheck" checked><LABEL for="event_use">許可する</LABEL>
+      </form>
+    </div>
+  </div>
+</script>
+
+<!-- メッセージ入力 -->
+<script id="tmpl-foldbox-input-message" type="x-template">
+  <div v-bind:class="{'foldbox--open':isOpen}">
+    <div @click.prevent="open()"><span>MESSAGE</span></div>
+    <div class="inputmessage">
+      <textarea v-model="message"></textarea>
+      <div>
+        <a href="#" @click.prevent="save(true);" class="pdButtonBasic">保存（すべてのovoに反映）</a>
+        <a href="#" @click.prevent="save();" class="pdButtonBasic" v-bind:class="{'pdButtonBasic--deactive':message == savedmessage}">保存</a>
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- 公開状態変更 -->
+<script id="tmpl-foldbox-open-status" type="x-template">
+  <div v-bind:class="{'foldbox--open':isOpen}">
+    <div @click.prevent="open()"><span>公開設定</span></div>
+    <div class="setopenflg">
+      <form action="" data-message="このOVOの「QRコード」または「NFC」を読み込むことでこのOVOの画面にアクセスできます。<br>また書き込まれたメッセージを伝えることもできます。">
+        <input type="radio" name="hyouka" value="1" id="openstatus--on"  v-model="openState" data-title="このOVOを公開します" @click="openovo(this)"><label for="openstatus--on">公開する</label>
+        <input type="radio" name="hyouka" value="0" id="openstatus--off" v-model="openState" data-title="このOVOを非公開にします" @click="closeovo()"><label for="openstatus--off">非公開にする</label>
+      </form>
+    </div>
+  </div>
+</script>
+
+
+</div><!-- /.pdcontainer -->

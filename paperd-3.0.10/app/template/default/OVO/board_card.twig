@@ -1,0 +1,172 @@
+{#
+
+MY OVO ページ
+
+#}
+
+{% extends 'editor_frame.twig' %}
+
+{% set body_class = 'editor_ovo_page' %}
+
+{% block editor_head %}
+ {{ include('Editor/pd_common_head.twig')}}
+ <script type="text/javascript">
+
+require([
+  'app/Card'
+], function(
+  Card
+) {
+  var card = new Card();
+  card.init();
+});
+
+</script>
+{% endblock %}
+
+{% block main %}
+{#
+
+MyBoard OVO単体ページ メインHTMLコード
+
+#}
+<div id="vueApp" class="pdcontainer">
+
+<section id="" class="singlecardpreview pdcomponent">
+
+  <div class="pdtab">
+    <a href="#" class="pdTabButton pdTabButton--ovo pdTabButton--active"><div><span>OVO</span></div></a>
+  </div>
+
+  <div class="singlecardpreview__wrap">
+
+    <div class="editcard__pages">
+{% if isOpen %}
+      {# メモ：カードが公開されている場合 #}
+      <div class="pdpage pdpage--ovo">
+        <div class="pdpage__wrap" style="background-image:url('{{ image_url }}')" >
+        </div>
+      </div>
+{% else %}
+	  {# メモ：カードが非公開の場合 #}
+      <div class="pdpage pdpage--ovo">
+        <div class="pdpage__wrap">
+        </div>
+      </div>
+{% endif %}
+      
+
+    </div>
+
+    <div class="cardnav">
+      <div>
+{% if isMounted == false %}
+        {# メモ：未マウント状態 #}
+        <div class="pdButtonMount">
+          <form action="/board/card/{{ card_id }}/mount"><button>MOUNT!</button></form>
+        </div>
+{% else %}
+        {# メモ：マウント済み状態 #}
+        <div class="pdButtonMount pdButtonMount--deactive">
+          <form action="/board/card/{{ card_id }}/mount"><button>MOUNT!</button></form>
+        </div>
+{% endif %}
+      </div>
+    </div>
+
+{% if isOpen %}
+	{% if isMounted == false %}
+    {# メモ：未マウントの際 #}
+    <div class="cardtext">このOVOをMOUNT!してMESSAGEをみる</div>
+	{% else %}
+    {# メモ：マウント済みの際 #}
+    <div class="cardtext">このOVOはMOUNT!済みです</div>
+	{% endif %}
+
+	{% if isMounted and isOpen  %}
+    {# メモ：マウント済みの際（メッセージが読める） #}
+    <div class="foldboxlist">
+      <foldbox-message></foldbox-message>
+    </div><!-- /.foldboxlist -->
+	{% else %}
+    {# メモ：非ログイン時・カード非公開時（メッセージが読めない） 共通#}
+    <div class="foldboxlist foldboxlist--lock">
+      <foldbox-message></foldbox-message>
+    </div>
+	{% endif %}
+{% endif %}
+  </div>
+
+</section>
+
+
+</div><!-- /.pdcontainer -->
+
+{% if isOpen and isMounted %}
+{# メモ：メッセージ #}
+<script id="tmpl-foldbox-message" type="x-template">
+  <div v-bind:class="{'foldbox--open':isOpen}">
+    <div @click.prevent="open()"><span>MESSAGE</span></div>
+    <div class="message">
+      {{ message }}
+    </div>
+  </div>
+</script>
+{% endif %}
+
+{% endblock %}
+
+{% block overlay %}
+
+{% if isLogined == false %}
+{# メモ：ログインしていない場合 #}
+<div id="pdalert" class="pdcomponent pdalert--show">
+  <div>
+
+    <div class="pdalert--about">
+      <div>
+        <p class="pdalert__aboutmessage">
+          Welcome to OVO！<br>
+          このOVOをMY BOARDにMOUNTします<br>
+          LOGIN（ユーザー登録）が必要です<br>
+          あなたのOVOの場合、MY-OVOが表示されます
+        </p>
+      </div>
+      <span class="pdicon pdicon--lock"></span>
+      <p><a href="#" class="pdButtonBasic pdButtonBasic--rounded">LOGINへ</a></p>
+      <a href="/about/ovo" class="pdButtonAboutOvo">
+        <span>ABOUT OVO</span>
+        <div><div></div></div>
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+
+{% if isOpen == false %}
+{# メモ：非公開ovoの場合 #}
+<div id="pdalert" class="pdcomponent pdalert--show">
+  <div>
+
+    <div class="pdalert--about">
+      <div>
+        <p class="pdalert__aboutmessage">
+          Welcome to OVO！<br>
+          このOVOはユーザーによって公開されていないため<br>
+          閲覧することができません
+        </p>
+      </div>
+      <span class="pdicon pdicon--home"></span>
+      <p><a href="#" class="pdButtonBasic">HOMEへ</a></p>
+      <a href="/about/ovo" class="pdButtonAboutOvo">
+        <span>ABOUT OVO</span>
+        <div><div></div></div>
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

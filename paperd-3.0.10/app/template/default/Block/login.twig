@@ -1,0 +1,121 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) 2000-2015 LOCKON CO.,LTD. All Rights Reserved.
+
+http://www.lockon.co.jp/
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#}
+{% if is_granted('ROLE_USER') %}
+    <div id="member" class="member drawer_block pc">
+        <ul class="member_link">
+            <li>
+                <a href="{{ url('homepage') }}">
+                    <span class="menuHB menuHome"><use xlink:href="#cb-lock-circle" /></span>HOME
+                </a>
+            </li>
+            <li>
+                <a href="/about/ovo">
+                    <span class="menuHB menuAbout"><use xlink:href="#cb-user-circle" /></span>ABOUT
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('cart') }}">
+                    <span class="menuHB menuCart"><use xlink:href="#cb-lock-circle" /></span>CART
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('logout') }}">
+                    <span class="menuHB menuLogin"><use xlink:href="#cb-lock-circle" /></span>LOGOUT
+                </a>
+                <ul><li>
+                <a href="/ovo/">
+                    <span class="menuHB menuMyitem"><use xlink:href="#cb-lock-circle" /></span>MY OVO
+                </a>
+            </li>
+		    <li>
+		    	<a href="/board/ovo">
+		    		<span class="menuHB menuMyboard"><use xlink:href="#cb-lock-circle" /></span>MY BOARD
+		    	</a>
+		    </li>  
+            <li>
+                <a href="{{ url('mypage') }}">
+                    <span class="menuHB menuMypage"><use xlink:href="#cb-user-circle" /></span>MY PAGE
+                </a>
+                <ul>
+		            <li>
+		                <a href="{{ url('mypage_change') }}">
+		                    <use xlink:href="#cb-lock-circle" />アカウント情報
+		                </a>
+		            </li>
+		            <li>
+		                <a href="{{ url('mypage_delivery') }}">
+		                    <use xlink:href="#cb-lock-circle" />お届け先
+		                </a>
+		            </li>
+		            <li>
+		                <a href="{{ url('mypage') }}">
+		                    <use xlink:href="#cb-lock-circle" />注文履歴
+		                </a>
+		            </li>
+	            </ul>
+            </li>
+            </ul>
+            </li>
+            <li>
+                <a href="/store/ovo">
+                    <span class="menuHB menuStore"><use xlink:href="#cb-lock-circle" /></span>STORE
+                </a>
+            </li>
+        </ul>
+    </div>
+{% else %}
+    <div id="member" class="member drawer_block pc">
+        <ul class="member_link">
+            <li>
+                <a href="{{ url('homepage') }}">
+                    <span class="menuHB menuHome"><use xlink:href="#cb-lock-circle" /></span>HOME
+                </a>
+            </li>
+            <li>
+                <a href="/about/ovo">
+                    <span class="menuHB menuAbout"><use xlink:href="#cb-user-circle" /></span>ABOUT
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('cart') }}">
+                    <span class="menuHB menuCart"><use xlink:href="#cb-lock-circle" /></span>CART
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('mypage_login') }}">
+                    <span class="menuHB menuLogin"><use xlink:href="#cb-lock-circle" /></span>LOGIN
+                </a>
+            </li>
+            <li>
+                <a href="/store/ovo">
+                    <span class="menuHB menuStore"><use xlink:href="#cb-lock-circle" /></span>STORE
+                </a>
+            </li>
+        </ul>
+        
+    <div class="txt_center">
+    <p>
+    	<a href="/editor/ovo" class="btnStd btnEnter">MAKE NOW</a>
+    </p>
+    </div>
+    </div>
+{% endif %}
